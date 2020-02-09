@@ -6,6 +6,7 @@ class UserSubscriber
   private_constant :BUCKET
 
   def initialize(email)
+    # TODO: Validate email
     @email = email
     @bucket = Aws::S3::Resource.new.bucket(BUCKET)
   end
