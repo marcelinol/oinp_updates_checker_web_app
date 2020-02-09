@@ -18,4 +18,12 @@
       <button type="submit" class="pure-button pure-button-primary">Register</button>
     </fieldset>
   </form>
+
+<br>
+<br>
+
+<% @logs.reverse.each do |log| %>
+  <%= log %>
+  <br />
+<% end %>
 </body>
