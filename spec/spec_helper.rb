@@ -14,11 +14,6 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-
-def fixture(name)
-  File.read(File.expand_path("./fixtures/#{name}", File.dirname(__FILE__)))
-end
-
 require 'webmock/rspec'
 WebMock.disable_net_connect!(allow_localhost: true)
 
