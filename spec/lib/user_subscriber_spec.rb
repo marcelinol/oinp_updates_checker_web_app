@@ -3,6 +3,8 @@ require_relative "../../lib/user_subscriber"
 RSpec.describe UserSubscriber do
   describe "validations" do
     it "validates if given email is  an email" do
+      expect { UserSubscriber.new("not-an-email") }
+        .to raise_error(ArgumentError, "Invalid email. not-an-email is not an email")
     end
   end
 

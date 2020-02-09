@@ -6,7 +6,9 @@ class UserSubscriber
   private_constant :BUCKET
 
   def initialize(email)
-    # TODO: Validate email
+    unless email.match(URI::MailTo::EMAIL_REGEXP)
+      raise ArgumentError, "Invalid email. #{email} is not an email"
+    end
     @email = email
     @bucket = Aws::S3::Resource.new.bucket(BUCKET)
   end
