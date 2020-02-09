@@ -11,6 +11,7 @@
 </head>
 
 <body>
+  <h1>Register</h1>
   <form class="pure-form pure-form-stacked" method="POST" action="/register">
     <fieldset>
       <label for="email">Register here to get updates from the OINP updates page in your inbox:</label>
@@ -19,11 +20,9 @@
     </fieldset>
   </form>
 
-<br>
-<br>
-
-<% @logs.reverse.each do |log| %>
-  <%= log %>
-  <br />
-<% end %>
+  <h1>Logs of the last 10 times that the OINP updates page was checked:</h1>
+  <% @logs.reverse.each do |log| %>
+    <%= log %>
+    <br />
+  <% end %>
 </body>
