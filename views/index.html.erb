@@ -7,10 +7,30 @@
       margin-top: 15px;
       margin-left: 20px;
     }
+    div.message {
+      margin: 0 0.1em;
+      padding: 0.3em 1em;
+      color: #fff;
+    }
+    div.success {
+      background: #5aba59;
+    }
+    div.failure {
+      background: #df2d4f;
+    }
   </style>
 </head>
 
 <body>
+  <% if @message %>
+  <div class="pure-g">
+    <div class="pure-u-1">
+      <div class="message <%= @message[:status] %>">
+        <%= @message[:content] %>
+      </div>
+    </div>
+  </div>
+  <% end %>
   <h1>Register</h1>
   <form class="pure-form pure-form-stacked" method="POST" action="/register">
     <fieldset>
