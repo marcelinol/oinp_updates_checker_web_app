@@ -2,9 +2,25 @@ require_relative "../../lib/user_subscriber"
 
 RSpec.describe UserSubscriber do
   describe "validations" do
-    it "validates if given email is  an email" do
+    it "validates email" do
       expect { UserSubscriber.new("not-an-email") }
         .to raise_error(ArgumentError, "Invalid email. not-an-email is not an email")
+    end
+
+    # This is my way of preventing my automatic email to send many email at once
+    it "fails if there already 10 users registered" do
+      stub_request(:get, "https://oinp-updates-checker.s3.amazonaws.com/users.txt")
+        .to_return(status: 200, body: "", headers: {})
+      stub_request(:put, "https://oinp-updates-checker.s3.amazonaws.com/users.txt")
+        .to_return(status: 200, body: "", headers: {})
+
+      allow(File)
+        .to receive(:open)
+          .with(UserSubscriber::USERS_LOCAL_PATH, "r:UTF-8")
+          .and_return(fixture("users.txt"))
+
+      expect { UserSubscriber.new("new_user@example.com").subscribe! }
+        .to raise_error(StandardError, "Limit of registered users reached. Sorry for the inconvenience.")
     end
   end
 

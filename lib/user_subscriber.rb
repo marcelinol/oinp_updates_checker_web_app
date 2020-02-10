@@ -6,9 +6,7 @@ class UserSubscriber
   private_constant :BUCKET
 
   def initialize(email)
-    unless email.match(URI::MailTo::EMAIL_REGEXP)
-      raise ArgumentError, "Invalid email. #{email} is not an email"
-    end
+    validate_email(email)
     @email = email
     @bucket = Aws::S3::Resource.new.bucket(BUCKET)
   end
@@ -16,6 +14,10 @@ class UserSubscriber
   def subscribe!
     if users.include?(@email)
       raise StandardError, "User #{@email} is already registered."
+    end
+
+    if users.size >= 10
+      raise StandardError, "Limit of registered users reached. Sorry for the inconvenience."
     end
 
     File.open(USERS_LOCAL_PATH, "w:UTF-8") do |file|
@@ -36,6 +38,12 @@ class UserSubscriber
 
       users = File.open(USERS_LOCAL_PATH, "r:UTF-8", &:read)
       users.split(",")
+    end
+  end
+
+  def validate_email(email)
+    unless email.match(URI::MailTo::EMAIL_REGEXP)
+      raise ArgumentError, "Invalid email. #{email} is not an email"
     end
   end
 end
